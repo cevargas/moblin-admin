@@ -1,0 +1,14 @@
+{
+  "description" : "Moblin Admin",
+  "name" : "moblin-admin",
+  "config": {
+    "vendor-dir": "application/libraries"
+  },  
+  "require": {
+    "doctrine/orm": "2.4.*",
+    "symfony/yaml": "2.*"
+  },
+  "autoload": {
+      "psr-0": {"": "application/models/Entities/"}
+  }
+}
