@@ -1,0 +1,38 @@
+Entities\GruposPermissoes:
+    type: entity
+    table: grupos_permissoes
+    indexes:
+        fk_grupos_permissoes_grupos_id_idx:
+            columns:
+                - grupo_id
+        fk_grupos_permissoes_permissoes_id_idx:
+            columns:
+                - permissao_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        grupo:
+            targetEntity: Entities\Grupos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                grupo_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        permissao:
+            targetEntity: Entities\Permissoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                permissao_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

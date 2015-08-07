@@ -1,0 +1,47 @@
+Entities\Usuarios:
+    type: entity
+    table: usuarios
+    indexes:
+        fk_grupo_id_idx:
+            columns:
+                - grupo_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+        senha:
+            type: string
+            nullable: false
+            length: 40
+            fixed: false
+        status:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '0'
+    manyToOne:
+        grupo:
+            targetEntity: Entities\Grupos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                grupo_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
