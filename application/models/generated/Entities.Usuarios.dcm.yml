@@ -27,7 +27,7 @@ Entities\Usuarios:
         senha:
             type: string
             nullable: false
-            length: 40
+            length: 64
             fixed: false
         status:
             type: integer

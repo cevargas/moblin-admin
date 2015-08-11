@@ -72,7 +72,8 @@ class Doctrine {
         'user'      => $db['default']['username'],
         'password'  => $db['default']['password'],
         'host'      => $db['default']['hostname'],
-        'dbname'    => $db['default']['database']
+        'dbname'    => $db['default']['database'],
+		'charset'   => $db['default']['char_set']
     );
       
     // Create EntityManager

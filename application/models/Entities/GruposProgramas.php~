@@ -5,12 +5,12 @@ namespace Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * GruposPermissoes
+ * GruposProgramas
  *
- * @ORM\Table(name="grupos_permissoes", indexes={@ORM\Index(name="fk_grupos_permissoes_grupos_id_idx", columns={"id_grupo"}), @ORM\Index(name="fk_grupos_permissoes_permissoes_id_idx", columns={"id_permissao"})})
+ * @ORM\Table(name="grupos_programas", indexes={@ORM\Index(name="fk_grupo_programas_grupos_idx", columns={"id_grupo"}), @ORM\Index(name="fk_grupos_programas_programas_idx", columns={"id_programa"})})
  * @ORM\Entity
  */
-class GruposPermissoes
+class GruposProgramas
 {
     /**
      * @var integer
@@ -32,14 +32,14 @@ class GruposPermissoes
     private $idGrupo;
 
     /**
-     * @var \Entities\Permissoes
+     * @var \Entities\Programas
      *
-     * @ORM\ManyToOne(targetEntity="Entities\Permissoes")
+     * @ORM\ManyToOne(targetEntity="Entities\Programas")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_permissao", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_programa", referencedColumnName="id")
      * })
      */
-    private $idPermissao;
+    private $idPrograma;
 
 
     /**
@@ -56,7 +56,7 @@ class GruposPermissoes
      * Set idGrupo
      *
      * @param \Entities\Grupos $idGrupo
-     * @return GruposPermissoes
+     * @return GruposProgramas
      */
     public function setIdGrupo(\Entities\Grupos $idGrupo = null)
     {
@@ -76,25 +76,25 @@ class GruposPermissoes
     }
 
     /**
-     * Set idPermissao
+     * Set idPrograma
      *
-     * @param \Entities\Permissoes $idPermissao
-     * @return GruposPermissoes
+     * @param \Entities\Programas $idPrograma
+     * @return GruposProgramas
      */
-    public function setIdPermissao(\Entities\Permissoes $idPermissao = null)
+    public function setIdPrograma(\Entities\Programas $idPrograma = null)
     {
-        $this->idPermissao = $idPermissao;
+        $this->idPrograma = $idPrograma;
 
         return $this;
     }
 
     /**
-     * Get idPermissao
+     * Get idPrograma
      *
-     * @return \Entities\Permissoes 
+     * @return \Entities\Programas 
      */
-    public function getIdPermissao()
+    public function getIdPrograma()
     {
-        return $this->idPermissao;
+        return $this->idPrograma;
     }
 }

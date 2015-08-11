@@ -17,8 +17,6 @@ class Login extends CI_Controller {
 	//libraries/Doctrine.php
 	private $_em;
 	
-	private $data = array();
-	
 	public function __construct() {
 		
 		parent::__construct();
@@ -44,8 +42,9 @@ class Login extends CI_Controller {
 		//se NAO validar o login, retorna para o Formulario de login
   		if ($this->form_validation->run() == FALSE) {
 			
-        	$this->data['view'] = 'admin/login/index';
-			$this->load->view('admin/index', $this->data);
+			$data = array();
+        	$data['view'] = 'admin/login/frm_login';
+			$this->load->view('admin/login/index', $data);
 			
 		}
 		else {
@@ -57,8 +56,8 @@ class Login extends CI_Controller {
 	//validacao do login
 	public function verificacao_login($email) {
 
-		//criptografa
-		$senha = do_hash($this->input->post('senha', true));
+		//criptografa		
+		$senha = hash('sha256', $this->input->post('senha', true) . $email);
 
 		try {
 			//consulta no banco de dados se o usuario existe e se esta ativo	
@@ -75,7 +74,7 @@ class Login extends CI_Controller {
 		if(isset($usuario)) {
 						
 			//seta paramentros de sessao
-			$data_session_set = array('logged_in' => $usuario);								  
+			$data_session_set = array('logged_in' => true, 'usuario_id' => $usuario->getId());						  
 			$this->session->set_userdata($data_session_set);
 			return true;
 			

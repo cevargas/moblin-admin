@@ -27,7 +27,7 @@ class Admin extends CI_Controller {
 	//carrega a view de login
 	public function index() {
 		$data = array();
-        $data['view'] = 'admin/login/index';
-		$this->load->view('admin/index', $data);
+        $data['view'] = 'admin/login/frm_login';
+		$this->load->view('admin/login/index', $data);
 	}
 }

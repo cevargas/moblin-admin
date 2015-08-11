@@ -1,13 +1,13 @@
-Entities\GruposPermissoes:
+Entities\GruposProgramas:
     type: entity
-    table: grupos_permissoes
+    table: grupos_programas
     indexes:
-        fk_grupos_permissoes_grupos_id_idx:
+        fk_grupo_programas_grupos_idx:
             columns:
                 - id_grupo
-        fk_grupos_permissoes_permissoes_id_idx:
+        fk_grupos_programas_programas_idx:
             columns:
-                - id_permissao
+                - id_programa
     id:
         id:
             type: integer
@@ -26,13 +26,13 @@ Entities\GruposPermissoes:
                 id_grupo:
                     referencedColumnName: id
             orphanRemoval: false
-        idPermissao:
-            targetEntity: Entities\Permissoes
+        idPrograma:
+            targetEntity: Entities\Programas
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_permissao:
+                id_programa:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

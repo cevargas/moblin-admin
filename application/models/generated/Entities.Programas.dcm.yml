@@ -1,0 +1,32 @@
+Entities\Programas:
+    type: entity
+    table: programas
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+        descricao:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        url:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+        parent:
+            type: integer
+            nullable: true
+            unsigned: false
+    lifecycleCallbacks: {  }
