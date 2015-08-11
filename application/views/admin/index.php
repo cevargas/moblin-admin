@@ -8,22 +8,14 @@ view dashboard
 
 ============================================================================================
 
-<ul>
-
 <?php
 
 
 	if($this->session->userdata('menu')):
-		foreach($this->session->userdata('menu') as $key => $menu):
-		?>
-			<li><a href="<?php echo base_url()?><?php echo $menu["url"];?>"><?php echo $menu["nome"];?></a></li>
-		<?php
-		endforeach;
+		echo $this->session->userdata('menu');
 	endif;
 	
 ?>
-
-</ul>
 
 <br />
 
