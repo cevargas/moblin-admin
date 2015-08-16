@@ -1,4 +1,4 @@
-﻿<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -6,17 +6,17 @@
 | -------------------------------------------------------------------
 | Construcao do menu baseado no grupo do usuario
 | 
-| libraries/menu
+| libraries/Menu.php
 | 
 */
 
 class Menu {
 	
-	private $CI;
+	protected $CI;
 	
 	//$_em = Entity Manager, objeto de Conexao do Doctrine
 	//libraries/Doctrine.php
-	private $_em;
+	protected $_em;
 
 	public function __construct() {
 		
@@ -29,11 +29,13 @@ class Menu {
 		//carrega doctrine
 		$this->CI->load->library('doctrine');		
 		$this->_em = $this->CI->doctrine->em;
+		
+		log_message('debug', 'Menu Class Initialized');
 			   
 	}
 	
 	//monta menu de acordo com o grupo do usuario
-	public function menu(){
+	public function getMenuParent($parent = 0){
 		
 		//pega id do usuario da sessao
 		$usuario_id = $this->CI->session->userdata('usuario_id');
@@ -43,11 +45,7 @@ class Menu {
 							 ->findOneBy(array('id' => $usuario_id));
 
 		//pega grupo do usuario				 
-		$grupo_id = $usuario->getGrupo()->getId();
-
-		//pega permissoes do grupo
-		//$permissoes = $this->_em->getRepository('Entities\GruposPermissoes')
-						   //->findByIdGrupo($grupo_id);					   
+		$grupo_id = $usuario->getGrupo()->getId();					   
 
 		//consulta os programas que o grupo tem acesso
 		$qb = $this->_em->createQueryBuilder();
@@ -56,28 +54,71 @@ class Menu {
 		   ->innerJoin('gp.idPrograma', 'p')
 		   ->innerJoin('gp.idGrupo', 'g')
 		   ->where('g.id = :grupo')
-		   ->setParameters(array('grupo' => $grupo_id))
+                   ->andWhere('p.parent = :parent')
+		   ->setParameters(array('grupo' => $grupo_id, 'parent' => $parent))                     
 		   ->orderBy('p.id, p.parent, p.nome', 'ASC');
 
 		$query = $qb->getQuery();
-		$results = $query->getResult();
-		
-		$menu = array();
+		$result = $query->getResult();
 
-		foreach ($results as $r) {
-			
-			$menu[] = array('id' => $r->getIdPrograma()->getId(),
-							'url'  => $r->getIdPrograma()->getUrl(), 
-							'nome' => $r->getIdPrograma()->getNome(),
-							'parent' => $r->getIdPrograma()->getParent());
-		}
+                $menu = $this->getMenuChildrens($result);
 		
-		$getMenu = $this->buildNavigation($menu, 0);
+                echo '<pre>';
+		print_r($menu);
+                exit;
 		
-		$data_session_set = array('menu' => $getMenu);						  
-		$this->CI->session->set_userdata($data_session_set);
+		//$data_session_set = array('menu' => $getMenu);						  
+		//$this->CI->session->set_userdata($data_session_set);
 	}
-	
+
+        /*
+         * TEM QUE VER AGORA COMO ADD OS ULs e LIs do menu
+         */
+        public function getMenuChildrens($parents) {
+            
+            $std = new stdClass();
+                     
+            foreach($parents as $key => $parent) {
+                
+                $menu = new stdClass();
+                
+                $qb = $this->_em->createQueryBuilder();
+		$qb->select(array('p'))
+		   ->from('Entities\Programas', 'p')
+                   ->andWhere('p.parent = :parent')
+		   ->setParameters(array('parent' => $parent->getIdPrograma()->getId()))                     
+		   ->orderBy('p.nome', 'ASC');
+
+		$query = $qb->getQuery();
+		$result = $query->getResult();
+ 
+                $menu->parent[$key] = $parent->getIdPrograma();
+                $menu->parent[$key]->childrens[$key] = $result;
+                                
+                foreach($result as $k => $v) {
+
+                    $qb = $this->_em->createQueryBuilder();
+                    $qb->select(array('p'))
+                       ->from('Entities\Programas', 'p')
+                       ->andWhere('p.parent = :parent')
+                       ->setParameters(array('parent' => $v->getId()))                 
+                       ->orderBy('p.nome', 'ASC');
+
+                    $q = $qb->getQuery();
+                    $r = $q->getResult();
+
+                    if($r) {
+                       $menu->parent[$key]->childrens[$key][$k]->child[$k] = $r;
+                    }
+                }
+                
+                $std->menu[$key] = $menu;
+            }
+
+            return $std;
+        }
+        
+	/*
 	function buildNavigation($items, $parent = NULL) {
 		
 		$hasChildren = false;
@@ -89,8 +130,7 @@ class Menu {
 			if ($item['parent'] == $parent) {
 				$hasChildren = true;
 				$childrenHtml .= '<li><a href="'.base_url().$item['url'].'">'.$item['nome'].'</a></li>';         
-				$childrenHtml .= $this->buildNavigation($items, $item['id']);         
-				$childrenHtml .= '</li>';           
+				$childrenHtml .= $this->buildNavigation($items, $item['id']);       
 			}
 		}
 	
@@ -101,5 +141,7 @@ class Menu {
 	
 		// Returns the HTML
 		return sprintf($outputHtml, $childrenHtml);
-	}  
+	} 
+	*/ 
+	
 }

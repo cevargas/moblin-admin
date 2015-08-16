@@ -24,16 +24,20 @@ class Dashboard extends CI_Controller {
 	}
 	
 	public function index() {
-		
-		echo "Carregou a Dashboard";
-		
-		$data = array();
-        $data['view'] = 'admin/home/index';
 
-		//carrega menu para a sessao de acordo com o grupo do usuario
+		$data = array();
+                $data['view'] = 'admin/home/index';
+
+		//carrega menu para a sessao de acordo com o grupo / usuario
 		if($this->session->has_userdata('menu') === false) {
 			$menu = new Menu; //libraries/menu
-			$menu->menu();			
+			$menu->getMenuParent();			
+		}
+		
+		//carrega lista de permissoes do grupo / usuario
+		if($this->session->has_userdata('permissoes') === false) {
+			$permissoes = new Acl;
+			$permissoes->getPermissions();	
 		}
 		
 		$this->load->view('admin/index', $data);
