@@ -31,7 +31,7 @@ class Dashboard extends CI_Controller {
 		//carrega menu para a sessao de acordo com o grupo / usuario
 		if($this->session->has_userdata('menu') === false) {
 			$menu = new Menu; //libraries/menu
-			$menu->getMenuParent();			
+			$menu->getMenu();			
 		}
 		
 		//carrega lista de permissoes do grupo / usuario

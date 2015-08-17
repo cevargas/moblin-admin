@@ -49,51 +49,11 @@
                         </div>
                     </li>
                     
-                    <?php
-					
-						//var_dump($this->session->userdata('menu'));
-					
+                    <?php					
 						if($this->session->userdata('menu')):
 							echo $this->session->userdata('menu');
 						endif;
-					?>
-                    
-                    <?php /*?>
-					<li class="active">
-                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Administração</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li class="active"><a href="index.html">Usuários</a></li>
-                            <li ><a href="dashboard_2.html">Programas</a></li>
-                            <li ><a href="dashboard_3.html">Permissões</a></li>
-                            <li ><a href="dashboard_4_1.html">Grupos</a></li>
-                        </ul>
-                    </li>                   
-
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Teste </span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Teste 1<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li><a href="#">Second Level Item</a></li>
-                            <li>
-                                <a href="#">Second Level Item</a></li>
-                            <li>
-                                <a href="#">Second Level Item</a></li>
-                        </ul>
-                    </li> <?php */?>                  
+					?>                        
                 </ul>
             </div>
         </nav>

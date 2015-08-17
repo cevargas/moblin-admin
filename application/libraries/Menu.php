@@ -35,7 +35,7 @@ class Menu {
 	}
 	
 	//monta menu de acordo com o grupo do usuario
-	public function getMenuParent($parent = 0){
+	public function getMenu(){
 		
 		//pega id do usuario da sessao
 		$usuario_id = $this->CI->session->userdata('usuario_id');
@@ -54,69 +54,67 @@ class Menu {
 		   ->innerJoin('gp.idPrograma', 'p')
 		   ->innerJoin('gp.idGrupo', 'g')
 		   ->where('g.id = :grupo')
-                   ->andWhere('p.parent = :parent')
-		   ->setParameters(array('grupo' => $grupo_id, 'parent' => $parent))                     
-		   ->orderBy('p.id, p.parent, p.nome', 'ASC');
+		   ->setParameters(array('grupo' => $grupo_id))                     
+		   ->orderBy('p.parent, p.nome', 'ASC');
 
 		$query = $qb->getQuery();
 		$result = $query->getResult();
 
-                $menu = $this->getMenuChildrens($result);
+        $menu = $this->buildMenu($result);
 		
-                echo '<pre>';
-		print_r($menu);
-                exit;
-		
-		//$data_session_set = array('menu' => $getMenu);						  
-		//$this->CI->session->set_userdata($data_session_set);
+		$data_session_set = array('menu' => $menu);						  
+		$this->CI->session->set_userdata($data_session_set);
 	}
 
-        /*
-         * TEM QUE VER AGORA COMO ADD OS ULs e LIs do menu
-         */
-        public function getMenuChildrens($parents) {
-            
-            $std = new stdClass();
-                     
-            foreach($parents as $key => $parent) {
-                
-                $menu = new stdClass();
-                
-                $qb = $this->_em->createQueryBuilder();
-		$qb->select(array('p'))
-		   ->from('Entities\Programas', 'p')
-                   ->andWhere('p.parent = :parent')
-		   ->setParameters(array('parent' => $parent->getIdPrograma()->getId()))                     
-		   ->orderBy('p.nome', 'ASC');
+	function buildMenu($items) {
+		
+		$html = '';
+		$parent = 0;
+		$parent_stack = array();
+		
+		// $items contains the results of the SQL query
+		$children = array();
+		foreach ( $items as $item )		
+			$children[$item->getIdPrograma()->getParent()][] = $item;
 
-		$query = $qb->getQuery();
-		$result = $query->getResult();
- 
-                $menu->parent[$key] = $parent->getIdPrograma();
-                $menu->parent[$key]->childrens[$key] = $result;
-                                
-                foreach($result as $k => $v) {
+		while ( ( $option = each( $children[$parent] ) ) || ( $parent > 0 ) )
+		{
+			if ( !empty( $option ) )
+			{					
 
-                    $qb = $this->_em->createQueryBuilder();
-                    $qb->select(array('p'))
-                       ->from('Entities\Programas', 'p')
-                       ->andWhere('p.parent = :parent')
-                       ->setParameters(array('parent' => $v->getId()))                 
-                       ->orderBy('p.nome', 'ASC');
+				// 1) The item contains children:
+				// store current parent in the stack, and update current parent
+				if ( !empty( $children[$option['value']->getIdPrograma()->getId()] ) )
+				{
+					$html .= '<li>';
+					$html .= '<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">'.$option['value']->getIdPrograma()->getNome().'</span>';
+					$html .= '<span class="fa arrow"></span></a>';
+					
+					if($parent == 0) 				
+						$html .= '<ul class="nav nav-second-level">'; 
+					else 
+						$html .= '<ul class="nav nav-third-level">'; 
+					
+					array_push( $parent_stack, $parent );
+					$parent = $option['value']->getIdPrograma()->getId();
+				}
+				// 2) The item does not contain children
+				else
+					$html .= '<li><a href="#">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
+			}
+			// 3) Current parent has no more children:
+			// jump back to the previous menu level
+			else
+			{
+				$html .= '</ul></li>';
+				$parent = array_pop( $parent_stack );
+			}
+		}
+		
+		// At this point, the HTML is already built
+		return $html;
+	}
 
-                    $q = $qb->getQuery();
-                    $r = $q->getResult();
-
-                    if($r) {
-                       $menu->parent[$key]->childrens[$key][$k]->child[$k] = $r;
-                    }
-                }
-                
-                $std->menu[$key] = $menu;
-            }
-
-            return $std;
-        }
         
 	/*
 	function buildNavigation($items, $parent = NULL) {
@@ -142,6 +140,5 @@ class Menu {
 		// Returns the HTML
 		return sprintf($outputHtml, $childrenHtml);
 	} 
-	*/ 
-	
+	*/ 	
 }
