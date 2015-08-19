@@ -18,8 +18,6 @@ class Usuarios extends CI_Controller {
 		
 		parent::__construct();
 		
-		echo "chegou ao controller do usuario";		
-		
 		//se nao tiver usuario logado redireciona para o login
 		if($this->session->has_userdata('logged_in') === false) {
 			redirect('admin', 'location', 301);
@@ -32,11 +30,9 @@ class Usuarios extends CI_Controller {
 	}	
 	
 	public function index() {
-		
-		
-		echo "Carregou usuarios";
-		
 		$data = array();
+		$data['programa'] = 'Usuários';
+		$data['acao'] = 'Listar';
         $data['view'] = 'admin/usuarios/index'; 		
 		$this->load->view('admin/index', $data);
 	}

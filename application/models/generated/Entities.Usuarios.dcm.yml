@@ -34,6 +34,16 @@ Entities\Usuarios:
             nullable: false
             unsigned: false
             default: '0'
+        foto:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+        profissao:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
     manyToOne:
         grupo:
             targetEntity: Entities\Grupos

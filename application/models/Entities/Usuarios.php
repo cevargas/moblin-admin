@@ -50,6 +50,20 @@ class Usuarios
     private $status;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="foto", type="string", length=45, nullable=true)
+     */
+    private $foto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profissao", type="string", length=45, nullable=true)
+     */
+    private $profissao;
+
+    /**
      * @var \Entities\Grupos
      *
      * @ORM\ManyToOne(targetEntity="Entities\Grupos")
@@ -160,6 +174,52 @@ class Usuarios
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set foto
+     *
+     * @param string $foto
+     * @return Usuarios
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
+
+        return $this;
+    }
+
+    /**
+     * Get foto
+     *
+     * @return string 
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set profissao
+     *
+     * @param string $profissao
+     * @return Usuarios
+     */
+    public function setProfissao($profissao)
+    {
+        $this->profissao = $profissao;
+
+        return $this;
+    }
+
+    /**
+     * Get profissao
+     *
+     * @return string 
+     */
+    public function getProfissao()
+    {
+        return $this->profissao;
     }
 
     /**

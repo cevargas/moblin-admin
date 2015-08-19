@@ -86,8 +86,14 @@ class Menu {
 				// store current parent in the stack, and update current parent
 				if ( !empty( $children[$option['value']->getIdPrograma()->getId()] ) )
 				{
-					$html .= '<li>';
-					$html .= '<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">'.$option['value']->getIdPrograma()->getNome().'</span>';
+					
+					$active = '';
+					if( $this->CI->uri->segment(1, 0) == $option['value']->getIdPrograma()->getUrl()) {
+						$active = 'active';
+					}
+					
+					$html .= '<li class="'.$active.'">';
+					$html .= '<a href="javascript:;"><i class="fa '.$option['value']->getIdPrograma()->getIcone().'"></i> <span class="nav-label">'.$option['value']->getIdPrograma()->getNome().'</span>';
 					$html .= '<span class="fa arrow"></span></a>';
 					
 					if($parent == 0) 				
@@ -99,8 +105,9 @@ class Menu {
 					$parent = $option['value']->getIdPrograma()->getId();
 				}
 				// 2) The item does not contain children
-				else
-					$html .= '<li><a href="#">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
+				else {					
+					$html .= '<li><a href="'.$option['value']->getIdPrograma()->getUrl().'">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
+				}
 			}
 			// 3) Current parent has no more children:
 			// jump back to the previous menu level

@@ -20,6 +20,11 @@ Entities\Programas:
             nullable: true
             length: 100
             fixed: false
+        icone:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
         url:
             type: string
             nullable: false

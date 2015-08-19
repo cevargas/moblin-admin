@@ -38,6 +38,13 @@ class Programas
     /**
      * @var string
      *
+     * @ORM\Column(name="icone", type="string", length=45, nullable=true)
+     */
+    private $icone;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="url", type="string", length=45, nullable=false)
      */
     private $url;
@@ -104,6 +111,29 @@ class Programas
     public function getDescricao()
     {
         return $this->descricao;
+    }
+
+    /**
+     * Set icone
+     *
+     * @param string $icone
+     * @return Programas
+     */
+    public function setIcone($icone)
+    {
+        $this->icone = $icone;
+
+        return $this;
+    }
+
+    /**
+     * Get icone
+     *
+     * @return string 
+     */
+    public function getIcone()
+    {
+        return $this->icone;
     }
 
     /**
