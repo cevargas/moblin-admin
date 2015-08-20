@@ -17,7 +17,7 @@ class Admin extends CI_Controller {
 	
 	public function __construct() {
 		
-		parent::__construct();
+		parent::__construct();		
 		
 		//se tiver usuario logado, redireciona para dashboard
 		if($this->session->has_userdata('logged_in') === true) {

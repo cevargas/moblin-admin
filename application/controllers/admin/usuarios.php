@@ -22,7 +22,7 @@ class Usuarios extends CI_Controller {
 		if($this->session->has_userdata('logged_in') === false) {
 			redirect('admin', 'location', 301);
 		}
-		//verifica se o grupo do usuario tem permissao para acessar o controlador
+		//verifica se o grupo do usuario tem permissao para acessar o controlador, carrega no controller login
 		if($this->acl->has_perm() == false) {
 			$this->session->set_flashdata('error_msg', 'Você não possui permissão para acessar '. $this->uri->segment(2, 0));
 			redirect('admin/dashboard', 'refresh');
@@ -32,7 +32,7 @@ class Usuarios extends CI_Controller {
 	public function index() {
 		$data = array();
 		$data['programa'] = 'Usuários';
-		$data['acao'] = 'Listar';
+		$data['acao'] = 'Lista de Usuários';
         $data['view'] = 'admin/usuarios/index'; 		
 		$this->load->view('admin/index', $data);
 	}

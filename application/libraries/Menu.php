@@ -62,8 +62,10 @@ class Menu {
 
         $menu = $this->buildMenu($result);
 		
-		$data_session_set = array('menu' => $menu);						  
-		$this->CI->session->set_userdata($data_session_set);
+		return $menu;
+		
+		//$data_session_set = array('menu' => $menu);						  
+		//$this->CI->session->set_userdata($data_session_set);
 	}
 
 	function buildMenu($items) {
@@ -81,15 +83,14 @@ class Menu {
 		{
 			if ( !empty( $option ) )
 			{					
-
+			
 				// 1) The item contains children:
 				// store current parent in the stack, and update current parent
 				if ( !empty( $children[$option['value']->getIdPrograma()->getId()] ) )
 				{
-					
 					$active = '';
-					if( $this->CI->uri->segment(1, 0) == $option['value']->getIdPrograma()->getUrl()) {
-						$active = 'active';
+					if($this->CI->uri->segment(1, 0) == $option['value']->getIdPrograma()->getUrl()) {
+						$active = 'active';		
 					}
 					
 					$html .= '<li class="'.$active.'">';
@@ -105,8 +106,13 @@ class Menu {
 					$parent = $option['value']->getIdPrograma()->getId();
 				}
 				// 2) The item does not contain children
-				else {					
-					$html .= '<li><a href="'.$option['value']->getIdPrograma()->getUrl().'">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
+				else {	
+				
+					$activeSub = '';
+					if($this->CI->uri->segment(2, 0) == $option['value']->getIdPrograma()->getUrl()) {
+						$activeSub = 'active';		
+					}					
+					$html .= '<li class="'.$activeSub.'"><a href="'.$option['value']->getIdPrograma()->getUrl().'">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
 				}
 			}
 			// 3) Current parent has no more children:

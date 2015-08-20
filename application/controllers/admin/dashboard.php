@@ -24,23 +24,8 @@ class Dashboard extends CI_Controller {
 	}
 	
 	public function index() {
-
 		$data = array();
         $data['view'] = 'admin/home/index';
-		
-		/**** AQUI TEM QUE PASSAR PARA O CONTROLADOR ADMIM ***************/
-		//carrega menu para a sessao de acordo com o grupo / usuario
-		if($this->session->has_userdata('menu') === false) {
-			$menu = new Menu; //libraries/menu
-			$menu->getMenu();			
-		}
-		
-		//carrega lista de permissoes do grupo / usuario
-		if($this->session->has_userdata('permissoes') === false) {
-			$permissoes = new Acl;
-			$permissoes->getPermissions();	
-		}
-		
 		$this->load->view('admin/index', $data);
 	}	
 }

@@ -36,7 +36,6 @@ class Login extends CI_Controller {
 		//seta validacoes
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_verificacao_login');
 		$this->form_validation->set_rules('senha', 'Senha', 'trim|required|min_length[5]');
-
 		//$this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
 		
 		//se NAO validar o login, retorna para o Formulario de login
@@ -80,6 +79,13 @@ class Login extends CI_Controller {
 										'grupo_id' => $usuario->getGrupo()->getId(),
 										'grupo_nome' => $usuario->getGrupo()->getNome());						  
 			$this->session->set_userdata($data_session_set);
+			
+			//carrega lista de permissoes do grupo / usuario
+			if($this->session->has_userdata('permissoes') === false) {
+				$permissoes = new Acl; //libraries/acl
+				$permissoes->getPermissions();	
+			}			
+			
 			return true;
 			
 		}
