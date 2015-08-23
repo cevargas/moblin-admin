@@ -37,15 +37,8 @@ class Acl {
 	//monta menu de acordo com o grupo do usuario
 	public function getPermissions(){
 		
-		//pega id do usuario da sessao
-		$usuario_id = $this->CI->session->userdata('usuario_id');
-
-		//busca usuario
-		$usuario = $this->_em->getRepository('Entities\Usuarios')
-							 ->findOneBy(array('id' => $usuario_id));
-
 		//pega grupo do usuario				 
-		$grupo_id = $usuario->getGrupo()->getId();
+		$grupo_id = $this->CI->session->userdata('grupo_id');
 
 		//pega permissoes do grupo
 		$permissoes = $this->_em->getRepository('Entities\GruposPermissoes')

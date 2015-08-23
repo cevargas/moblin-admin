@@ -1,5 +1,12 @@
 // Custom scripts
 $(document).ready(function () {
+	
+	$('.i-checks').iCheck({
+		checkboxClass: 'icheckbox_square-green',
+		radioClass: 'iradio_square-green',
+	});
+	
+	$(".footer").addClass('fixed');
 
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -43,17 +50,16 @@ $(document).ready(function () {
     $('.navbar-minimalize').click(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-    })
+    });
 
     // tooltips
-    $('.tooltip-demo').tooltip({
-        selector: "[data-toggle=tooltip]",
+    $('[data-toggle=tooltip]').tooltip({
         container: "body"
-    })
+    });
 
     // Move modal to body
     // Fix Bootstrap backdrop issu with animation.css
-    $('.modal').appendTo("body")
+    $('.modal').appendTo("body");
 
     // Full height of sidebar
     function fix_height() {
@@ -61,26 +67,25 @@ $(document).ready(function () {
         $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
     }
     fix_height();
-
+	
     // Fixed Sidebar
     // unComment this only whe you have a fixed-sidebar
-            //    $(window).bind("load", function() {
-            //        if($("body").hasClass('fixed-sidebar')) {
-            //            $('.sidebar-collapse').slimScroll({
-            //                height: '100%',
-            //                railOpacity: 0.9,
-            //            });
-            //        }
-            //    })
+	// $(window).bind("load", function() {
+	//		if($("body").hasClass('fixed-sidebar')) {
+	//			$('.sidebar-collapse').slimScroll({
+	//				height: '100%',
+	//				railOpacity: 0.9,
+	//			});
+	//		}
+	// });	
 
     $(window).bind("load resize click scroll", function() {
         if(!$("body").hasClass('body-small')) {
             fix_height();
         }
-    })
+    });
 
-    $("[data-toggle=popover]")
-        .popover();
+    $("[data-toggle=popover]").popover();
 });
 
 
@@ -146,5 +151,3 @@ function WinMove() {
         })
         .disableSelection();
 };
-
-

@@ -20,7 +20,7 @@ class Login extends CI_Controller {
 	public function __construct() {
 		
 		parent::__construct();
-		
+				
 		$this->load->helper('form');
 		$this->load->library('form_validation');	
 		$this->_em = $this->doctrine->em;
@@ -60,10 +60,18 @@ class Login extends CI_Controller {
 
 		try {
 			//consulta no banco de dados se o usuario existe e se esta ativo	
-			$usuario = $this->_em->getRepository('Entities\Usuarios')
-								 ->findOneBy(array('email' => $email, 
-											  	   'senha' => $senha,
-											       'status' => 1));
+			
+			$qb = $this->_em->createQueryBuilder();
+			$qb->select(array('u', 'g'))
+			    ->from('Entities\Usuarios', 'u')
+			    ->innerJoin('u.grupo', 'g')
+			    ->where('u.email = :email')
+			    ->andWhere('u.senha = :senha')
+				->andWhere('u.status = :status')
+				->andWhere('g.status = :statusgrupo')
+			    ->setParameters(array('email' => $email, 'senha' => $senha, 'status' => 1, 'statusgrupo' => 1));                     
+			$query = $qb->getQuery();
+			$usuario = $query->getSingleResult();
 												   
 		} catch(Exception $e){
 			log_message('error', $e->getMessage());
@@ -81,10 +89,8 @@ class Login extends CI_Controller {
 			$this->session->set_userdata($data_session_set);
 			
 			//carrega lista de permissoes do grupo / usuario
-			if($this->session->has_userdata('permissoes') === false) {
-				$permissoes = new Acl; //libraries/acl
-				$permissoes->getPermissions();	
-			}			
+			$permissoes = new Acl; //libraries/acl
+			$permissoes->getPermissions();		
 			
 			return true;
 			

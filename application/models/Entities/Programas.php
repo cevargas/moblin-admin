@@ -56,6 +56,13 @@ class Programas
      */
     private $parent;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true)
+     */
+    private $status;
+
 
     /**
      * Get id
@@ -180,5 +187,28 @@ class Programas
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Programas
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

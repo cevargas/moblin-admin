@@ -23,7 +23,7 @@ class Menu {
 	   	$this->CI =& get_instance();
 		
 	   	$this->CI->load->helper('url');
-		$this->CI->load->library('session');
+		//$this->CI->load->library('session');
 		$this->CI->config->item('base_url');
 		
 		//carrega doctrine
@@ -38,14 +38,7 @@ class Menu {
 	public function getMenu(){
 		
 		//pega id do usuario da sessao
-		$usuario_id = $this->CI->session->userdata('usuario_id');
-
-		//busca usuario
-		$usuario = $this->_em->getRepository('Entities\Usuarios')
-							 ->findOneBy(array('id' => $usuario_id));
-
-		//pega grupo do usuario				 
-		$grupo_id = $usuario->getGrupo()->getId();					   
+		$grupo_id = $this->CI->session->userdata('grupo_id');
 
 		//consulta os programas que o grupo tem acesso
 		$qb = $this->_em->createQueryBuilder();
@@ -54,7 +47,8 @@ class Menu {
 		   ->innerJoin('gp.idPrograma', 'p')
 		   ->innerJoin('gp.idGrupo', 'g')
 		   ->where('g.id = :grupo')
-		   ->setParameters(array('grupo' => $grupo_id))                     
+		   ->andWhere('p.status = :statusprograma')
+		   ->setParameters(array('grupo' => $grupo_id, 'statusprograma' => 1))
 		   ->orderBy('p.parent, p.nome', 'ASC');
 
 		$query = $qb->getQuery();
@@ -112,7 +106,7 @@ class Menu {
 					if($this->CI->uri->segment(2, 0) == $option['value']->getIdPrograma()->getUrl()) {
 						$activeSub = 'active';		
 					}					
-					$html .= '<li class="'.$activeSub.'"><a href="'.$option['value']->getIdPrograma()->getUrl().'">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
+					$html .= '<li class="'.$activeSub.'"><a href="'.base_url().'admin/'.$option['value']->getIdPrograma()->getUrl().'">' . $option['value']->getIdPrograma()->getNome() . '</a></li>';
 				}
 			}
 			// 3) Current parent has no more children:

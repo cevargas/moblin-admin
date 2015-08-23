@@ -64,10 +64,10 @@ class Grupos extends \Entities\Grupos implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Entities\\Grupos' . "\0" . 'id', '' . "\0" . 'Entities\\Grupos' . "\0" . 'nome', '' . "\0" . 'Entities\\Grupos' . "\0" . 'descricao', '' . "\0" . 'Entities\\Grupos' . "\0" . 'status');
+            return array('__isInitialized__', '' . "\0" . 'Entities\\Grupos' . "\0" . 'id', '' . "\0" . 'Entities\\Grupos' . "\0" . 'nome', '' . "\0" . 'Entities\\Grupos' . "\0" . 'descricao', '' . "\0" . 'Entities\\Grupos' . "\0" . 'status', '' . "\0" . 'Entities\\Grupos' . "\0" . 'restricao');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Entities\\Grupos' . "\0" . 'id', '' . "\0" . 'Entities\\Grupos' . "\0" . 'nome', '' . "\0" . 'Entities\\Grupos' . "\0" . 'descricao', '' . "\0" . 'Entities\\Grupos' . "\0" . 'status');
+        return array('__isInitialized__', '' . "\0" . 'Entities\\Grupos' . "\0" . 'id', '' . "\0" . 'Entities\\Grupos' . "\0" . 'nome', '' . "\0" . 'Entities\\Grupos' . "\0" . 'descricao', '' . "\0" . 'Entities\\Grupos' . "\0" . 'status', '' . "\0" . 'Entities\\Grupos' . "\0" . 'restricao');
     }
 
     /**
@@ -252,6 +252,28 @@ class Grupos extends \Entities\Grupos implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', array());
 
         return parent::getStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRestricao($restricao)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRestricao', array($restricao));
+
+        return parent::setRestricao($restricao);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRestricao()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRestricao', array());
+
+        return parent::getRestricao();
     }
 
 }

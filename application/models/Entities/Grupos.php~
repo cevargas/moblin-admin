@@ -42,13 +42,6 @@ class Grupos
      */
     private $status;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="restricao", type="integer", nullable=true)
-     */
-    private $restricao;
-
 
     /**
      * Get id
@@ -127,28 +120,5 @@ class Grupos
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set restricao
-     *
-     * @param integer $restricao
-     * @return Grupos
-     */
-    public function setRestricao($restricao)
-    {
-        $this->restricao = $restricao;
-
-        return $this;
-    }
-
-    /**
-     * Get restricao
-     *
-     * @return integer 
-     */
-    public function getRestricao()
-    {
-        return $this->restricao;
     }
 }

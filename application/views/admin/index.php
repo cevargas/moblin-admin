@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -17,9 +18,15 @@
 
     <!-- Gritter -->
     <link href="<?php echo base_url()?>public/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    
+    <!-- iCheck -->
+    <link href="<?php echo base_url()?>public/css/plugins/iCheck/custom.css" rel="stylesheet">
 
     <link href="<?php echo base_url()?>public/css/animate.css" rel="stylesheet">
     <link href="<?php echo base_url()?>public/css/style.css" rel="stylesheet">
+    
+    
+    
 </head>
 
 <body>
@@ -53,7 +60,7 @@
                     <?php	
 						//carrega o menu de acordo com o grupo/usuario
 						$menu = new Menu; //libraries/menu
-						echo $menu->getMenu();					
+						echo $menu->getMenu();
 					?>                        
                 </ul>
             </div><!-- .sidebar-collapse -->
@@ -119,7 +126,7 @@
 			</div><!-- .row -->            
     	</div><!-- #page-wrapper -->        
 	</div><!-- #wrapper --> 
-
+    
     <!-- Mainly scripts -->
     <script src="<?php echo base_url()?>public/js/jquery-2.1.1.js"></script>
     <script src="<?php echo base_url()?>public/js/bootstrap.min.js"></script>
@@ -141,8 +148,8 @@
     <script src="<?php echo base_url()?>public/js/inspinia.js"></script>
     <script src="<?php echo base_url()?>public/js/plugins/pace/pace.min.js"></script>
 
-    <!-- jQuery UI -->
-    <script src="<?php echo base_url()?>public/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- jQuery UI DA PROBLEMA COM O TOOLTIP ****************
+    <script src="<?php echo base_url()?>public/js/plugins/jquery-ui/jquery-ui.min.js"></script>-->
 
     <!-- GITTER -->
     <script src="<?php echo base_url()?>public/js/plugins/gritter/jquery.gritter.min.js"></script>
@@ -153,11 +160,14 @@
     <!-- Sparkline demo data  -->
     <script src="<?php echo base_url()?>public/js/demo/sparkline-demo.js"></script>
 
-    <!-- ChartJS-->
+    <!-- ChartJS -->
     <script src="<?php echo base_url()?>public/js/plugins/chartJs/Chart.min.js"></script>
 
     <!-- Toastr -->
     <script src="<?php echo base_url()?>public/js/plugins/toastr/toastr.min.js"></script>
+    
+    <!-- iCheck -->
+    <script src="<?php echo base_url()?>public/js/plugins/iCheck/icheck.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -172,7 +182,7 @@
 						showMethod: 'slideDown',
 						timeOut: 4000
 					};
-					toastr.error('Alerta!', '<?php echo $this->session->flashdata('error_msg');?>');
+					toastr.error('<?php echo $this->session->flashdata('error_msg');?>', 'Alerta!');
 	
 				}, 1300);			
 			<?php 

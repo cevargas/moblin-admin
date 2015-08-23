@@ -34,4 +34,9 @@ Entities\Programas:
             type: integer
             nullable: true
             unsigned: false
+        status:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '1'
     lifecycleCallbacks: {  }

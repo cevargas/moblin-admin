@@ -25,4 +25,10 @@ Entities\Grupos:
             nullable: false
             unsigned: false
             default: '0'
+        restricao:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Se 1, nao permite excluir.'
+            default: '0'
     lifecycleCallbacks: {  }
